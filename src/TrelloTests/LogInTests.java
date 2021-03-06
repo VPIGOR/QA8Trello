@@ -25,7 +25,7 @@ public class LogInTests {
     }
 
     @Test
-    public void loginNegativeTest() throws InterruptedException {
+    public void loginNegativeTestAllWrongData() throws InterruptedException {
 
         driver.findElement(By.xpath("//*[@class='btn btn-sm btn-link text-primary']")).click();
         Thread.sleep(3000);
@@ -39,6 +39,28 @@ public class LogInTests {
         WebElement message = driver.findElement(By.id("error"));
         System.out.println(message.getText());
     }
+
+    @Test
+    public void loginNegativeTestWrongPassword() throws InterruptedException {
+        driver.findElement(By.xpath("//*[@class='btn btn-sm btn-link text-primary']")).click();
+        Thread.sleep(3000);
+        WebElement email = driver.findElement(By.id("user"));
+        fillField(email, "hadashqa@gmail.com");
+        WebElement logIn = driver.findElement(By.id("login"));
+        logIn.click();
+        Thread.sleep(2000);
+        WebElement pass = driver.findElement(By.id("password"));
+        fillField(pass, "password");
+        WebElement submit = driver.findElement(By.id("login-submit"));
+        submit.click();
+        Thread.sleep(2000);
+        WebElement massage = driver.findElement(By.id("login-error"));
+        if (massage.isEnabled()) {
+            System.out.println("Test is PASS");
+            System.out.println("---- " + massage.getText() + " ----");
+        } else System.out.println("Test is NOT PASS");
+    }
+
     @Test
     public void loginPossetiveTest() throws InterruptedException {
 
@@ -56,9 +78,9 @@ public class LogInTests {
         Thread.sleep(2000);
         String title = driver.getTitle();
         System.out.println(title);
-        if(title.contains("Trello")){
+        if (title.contains("Trello")) {
             System.out.println("PASS");
-        }else System.out.println("NOT PASS");
+        } else System.out.println("NOT PASS");
     }
 
     public void fillField(WebElement element, String value) throws InterruptedException {
