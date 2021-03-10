@@ -28,6 +28,8 @@ public class TasteBase {
     public void fillField(WebElement element, String value) throws InterruptedException {
         element.clear();
         element.click();
+        Thread.sleep(2000);
+        element.clear();
         element.sendKeys(value);
         Thread.sleep(2000);
     }
