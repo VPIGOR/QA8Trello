@@ -4,31 +4,21 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class LogInTests {
-    WebDriver driver;
+public class LogInTests extends TasteBase {
 
     @BeforeMethod
-    public void enter() throws InterruptedException {
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.get("https://trello.com/");
-        Thread.sleep(2000);
-    }
-
-    @AfterMethod
-    public void exit() {
-        driver.quit();
-    }
-
-    @Test
-    public void loginNegativeTestAllWrongData() throws InterruptedException {
-
+    public  void  init() throws InterruptedException {
         driver.findElement(By.xpath("//*[@class='btn btn-sm btn-link text-primary']")).click();
         Thread.sleep(3000);
+    }
+    @Test
+    public void loginNegativeTestAllWrongData() throws InterruptedException {
         WebElement email = driver.findElement(By.id("user"));
         fillField(email, "mail@my.foo");
         WebElement pass = driver.findElement(By.id("password"));
@@ -38,12 +28,11 @@ public class LogInTests {
         Thread.sleep(2000);
         WebElement message = driver.findElement(By.id("error"));
         System.out.println(message.getText());
+        Assert.assertTrue(message.isDisplayed(),"the message doesn't displayd");
     }
 
     @Test
     public void loginNegativeTestWrongPassword() throws InterruptedException {
-        driver.findElement(By.xpath("//*[@class='btn btn-sm btn-link text-primary']")).click();
-        Thread.sleep(3000);
         WebElement email = driver.findElement(By.id("user"));
         fillField(email, "hadashqa@gmail.com");
         WebElement logIn = driver.findElement(By.id("login"));
@@ -55,17 +44,11 @@ public class LogInTests {
         submit.click();
         Thread.sleep(2000);
         WebElement massage = driver.findElement(By.id("login-error"));
-        if (massage.isEnabled()) {
-            System.out.println("Test is PASS");
-            System.out.println("---- " + massage.getText() + " ----");
-        } else System.out.println("Test is NOT PASS");
+        Assert.assertTrue(massage.isDisplayed(),"the message doesn't displayd");
     }
 
     @Test
     public void loginPossetiveTest() throws InterruptedException {
-
-        driver.findElement(By.xpath("//*[@class='btn btn-sm btn-link text-primary']")).click();
-        Thread.sleep(3000);
         WebElement email = driver.findElement(By.id("user"));
         fillField(email, "hadashqa@gmail.com");
         WebElement logIn = driver.findElement(By.id("login"));
@@ -75,18 +58,11 @@ public class LogInTests {
         fillField(pass, "starQA21");
         WebElement submit = driver.findElement(By.id("login-submit"));
         submit.click();
-        Thread.sleep(2000);
+        Thread.sleep(5000);
         String title = driver.getTitle();
         System.out.println(title);
-        if (title.contains("Trello")) {
-            System.out.println("PASS");
-        } else System.out.println("NOT PASS");
+        Assert.assertEquals(title,"Boards | Trello","something vrong");
     }
 
-    public void fillField(WebElement element, String value) throws InterruptedException {
-        element.clear();
-        element.click();
-        element.sendKeys(value);
-        Thread.sleep(2000);
-    }
+
 }
