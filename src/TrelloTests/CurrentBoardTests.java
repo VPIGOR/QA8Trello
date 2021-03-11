@@ -42,7 +42,10 @@ public class CurrentBoardTests extends TasteBase {
 
     @Test
     public void createNewList() throws InterruptedException {
+        int countListsBefore = driver.findElements(By.xpath("//span[@class='js-add-a-card']")).size();
         addList("My first list");
+        int countListsAfter = driver.findElements(By.xpath("//span[@class='js-add-a-card']")).size();
+        Assert.assertEquals(countListsBefore+1,countListsAfter,"List didn't add");
     }
 
 
@@ -53,24 +56,25 @@ public class CurrentBoardTests extends TasteBase {
            addList("empty list");
             countLists++;
         }
-
         WebElement lastList = driver.findElements(By.xpath("//textarea[./@dir='auto']")).get(countLists - 1);
         String newName = "new changed name";
         fillField(lastList, newName);
         lastList.sendKeys(Keys.ENTER);
         Thread.sleep(2000);
+        driver.navigate().refresh();
         WebElement forTest = driver.findElements(By.xpath("//div[@class='list-header js-list-header u-clearfix is-menu-shown']")).get(countLists - 1);
         Assert.assertEquals(forTest.getText(), newName, "THE LIST NAME DIDN'T CHANGE");
     }
 
     @Test
     public void addCard() throws InterruptedException {
-        int countLists = driver.findElements(By.xpath("//span[@class='js-add-a-card']")).size();
+        int countLists = driver.findElements(By.xpath("//div[@class='js-list list-wrapper']")).size();
         if (countLists == 0) {
             addList("empty list");
             countLists++;
         }
-        WebElement createCard = driver.findElements(By.xpath("//span[@class='js-add-a-card']")).get(countLists-1);
+        int countOfCardBefore = driver.findElements(By.xpath("//a[@class='list-card js-member-droppable ui-droppable']")).size();
+        WebElement createCard = driver.findElements(By.xpath("//a[@class='open-card-composer js-open-card-composer']")).get(countLists-1);
         createCard.click();
         WebElement enterName = driver.findElement(By.cssSelector(".js-card-title"));
         fillField(enterName,"Good Card");
@@ -78,7 +82,9 @@ public class CurrentBoardTests extends TasteBase {
         addCard.click();
         WebElement xButton = driver.findElement(By.cssSelector(".js-cancel"));
         xButton.click();
-        WebElement toCheck = driver.findElements(By.cssSelector(".list-cards")).get(countLists-1);
-        Assert.assertTrue(toCheck.isEnabled());
+        Thread.sleep(2000);
+        driver.navigate().refresh();
+        int countOfCardsAfter = driver.findElements(By.xpath("//a[@class='list-card js-member-droppable ui-droppable']")).size();
+        Assert.assertEquals(countOfCardBefore+1,countOfCardsAfter,"Card wasn't added");
     }
 }
