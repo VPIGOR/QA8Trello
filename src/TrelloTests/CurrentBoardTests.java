@@ -32,7 +32,7 @@ public class CurrentBoardTests extends TasteBase {
     }
 
     public void addList(String name) {
-        int countListsBefore = driver.findElements(By.xpath("//span[@class='js-add-a-card']")).size();
+        int countListsBefore = driver.findElements(By.xpath("//div[@class='js-list list-wrapper']")).size();
         WebElement addList = driver.findElement(By.cssSelector("[class='placeholder']"));
         addList.click();
         waitUntilElementIsVisable(By.className("list-name-input"), 5);
@@ -43,23 +43,23 @@ public class CurrentBoardTests extends TasteBase {
         WebElement x = driver.findElement(By.cssSelector(".js-cancel-edit"));
         x.click();
         waitUntilElementIsVisable(By.cssSelector("[class='placeholder']"), 5);
-        int countListsAfter = driver.findElements(By.xpath("//span[@class='js-add-a-card']")).size();
+        int countListsAfter = driver.findElements(By.xpath("//div[@class='js-list list-wrapper']")).size();
         Assert.assertEquals(countListsBefore + 1, countListsAfter, "List didn't add");
 
     }
 
     @Test
     public void createNewList() {
-        int countListsBefore = driver.findElements(By.xpath("//span[@class='js-add-a-card']")).size();
+        int countListsBefore = driver.findElements(By.xpath("//div[@class='js-list list-wrapper']")).size();
         addList("My first list");
-        int countListsAfter = driver.findElements(By.xpath("//span[@class='js-add-a-card']")).size();
+        int countListsAfter = driver.findElements(By.xpath("//div[@class='js-list list-wrapper']")).size();
         Assert.assertEquals(countListsBefore + 1, countListsAfter, "List didn't add");
     }
 
 
     @Test
     public void changeListName() {
-        int countLists = driver.findElements(By.xpath("//textarea[./@dir='auto']")).size();
+        int countLists = driver.findElements(By.xpath("//div[@class='js-list list-wrapper']")).size();
         if (countLists == 0) {
             addList("empty list");
             countLists++;
@@ -98,7 +98,7 @@ public class CurrentBoardTests extends TasteBase {
 
     @Test
     public void deletionList() {
-        int countListsBefore = driver.findElements(By.xpath("//span[@class='js-add-a-card']")).size();
+        int countListsBefore = driver.findElements(By.xpath("//div[@class='js-list list-wrapper']")).size();
         if (countListsBefore == 0) {
             addList("empty list");
             countListsBefore++;
@@ -109,7 +109,7 @@ public class CurrentBoardTests extends TasteBase {
         WebElement delete = driver.findElement(By.className("js-close-list"));
         delete.click();
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-        int countListsAfter = driver.findElements(By.xpath("//span[@class='js-add-a-card']")).size();
+        int countListsAfter = driver.findElements(By.xpath("//div[@class='js-list list-wrapper']")).size();
         Assert.assertEquals(countListsBefore - 1, countListsAfter, "List didn't delete");
     }
 }

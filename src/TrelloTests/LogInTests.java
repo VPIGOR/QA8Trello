@@ -10,37 +10,29 @@ public class LogInTests extends TasteBase {
 
     @BeforeMethod
     public  void  init() {
-        driver.findElement(By.xpath("//*[@class='btn btn-sm btn-link text-primary']")).click();
-        waitUntilElementIsClickabl(By.id("user"),10);
+        loginPage.openLoginPage();
+        loginPage.waitUntilPageIsLoaded();
+
     }
     @Test
     public void loginNegativeTestAllWrongData() {
-        WebElement email = driver.findElement(By.id("user"));
-        fillField(email, "mail@my.foo");
-        WebElement pass = driver.findElement(By.id("password"));
-        fillField(pass, "password");
-        WebElement logIn = driver.findElement(By.id("login"));
-        logIn.click();
-        waitUntilElementIsClickabl(By.id("error"),5);
-        WebElement message = driver.findElement(By.id("error"));
-        System.out.println(message.getText());
-        Assert.assertTrue(message.isDisplayed(),"the message doesn't displayd");
+        loginPage.enterLoginNotAttl("email@jac.com");
+        loginPage.enterPasswordNoAtl("password");
+        loginPage.weitThread(1000);
+        loginPage.clicToLoginField();
+        loginPage.waitUntilErrorMessageIsPresent();
+        Assert.assertTrue(driver.findElement(By.id("error")).isDisplayed(),"the message doesn't displayd");
     }
 
     @Test
     public void loginNegativeTestWrongPassword() {
-        WebElement email = driver.findElement(By.id("user"));
-        fillField(email, "hadashqa@gmail.com");
-        WebElement logIn = driver.findElement(By.id("login"));
-        logIn.click();
-        waitUntilElementIsClickabl(By.cssSelector(".field-group"),5);
-        WebElement pass = driver.findElement(By.id("password"));
-        fillField(pass, "password");
-        WebElement submit = driver.findElement(By.id("login-submit"));
-        submit.click();
-        waitUntilElementIsVisable(By.id("login-error"),10);
-        WebElement massage = driver.findElement(By.id("login-error"));
-        Assert.assertTrue(massage.isDisplayed(),"the message doesn't displayd");
+        loginPage.enterLoginNotAttl("hadashqa@gmail.com");
+        loginPage.clicToLoginField();
+        loginPage.waitUntilPassFildPresent();
+        loginPage.enterPasswordNoAtl("password");
+        loginPage.clickToPasswoIn();
+        loginPage.waitUntilLoginErrorMessageIsPresent();
+        Assert.assertTrue(driver.findElement(By.id("login-error")).isDisplayed(),"the message doesn't displayd");
     }
 
     @Test
