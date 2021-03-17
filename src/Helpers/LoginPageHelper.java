@@ -7,12 +7,12 @@ import org.openqa.selenium.WebElement;
 public class LoginPageHelper extends PageBase {
 
     public LoginPageHelper(WebDriver driver) {
-
         super(driver);
     }
 
-    public void waitUntilPageIsLoaded() {
 
+
+    public void waitUntilPageIsLoaded() {
         waitUntilElementIsClickabl(By.id("user"), 10);
     }
 
@@ -51,7 +51,17 @@ public class LoginPageHelper extends PageBase {
         driver.findElement(By.id("login-submit")).click();
     }
 
+    public boolean isDisplayErrorMessage() {
+        return driver.findElement(By.id("error")).isDisplayed();
+    }
+
     public void waitUntilLoginErrorMessageIsPresent() {
         waitUntilElementIsVisable(By.id("login-error"), 10);
     }
+
+    public boolean isDisplayLoginErrorMessage() {
+        return driver.findElement(By.id("login-error")).isDisplayed();
+    }
+
+
 }

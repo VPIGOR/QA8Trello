@@ -21,7 +21,7 @@ public class LogInTests extends TasteBase {
         loginPage.weitThread(1000);
         loginPage.clicToLoginField();
         loginPage.waitUntilErrorMessageIsPresent();
-        Assert.assertTrue(driver.findElement(By.id("error")).isDisplayed(),"the message doesn't displayd");
+        Assert.assertTrue(loginPage.isDisplayErrorMessage(),"the message doesn't displayd");
     }
 
     @Test
@@ -32,7 +32,7 @@ public class LogInTests extends TasteBase {
         loginPage.enterPasswordNoAtl("password");
         loginPage.clickToPasswoIn();
         loginPage.waitUntilLoginErrorMessageIsPresent();
-        Assert.assertTrue(driver.findElement(By.id("login-error")).isDisplayed(),"the message doesn't displayd");
+        Assert.assertTrue(loginPage.isDisplayLoginErrorMessage(),"the message doesn't displayd");
     }
 
     @Test
