@@ -28,6 +28,9 @@ public class PageBase {
             e.printStackTrace();
         }
     }
+    public String getPagTitle(){
+        return driver.getTitle();
+    }
     public void waitUntilTitleIs(String str, int time) {
         try {
             new WebDriverWait(driver, time).until(ExpectedConditions.titleIs(str));

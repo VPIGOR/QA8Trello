@@ -10,7 +10,21 @@ public class LoginPageHelper extends PageBase {
         super(driver);
     }
 
+    public void enterLoginAndPassNoAtl(String log, String pas) {
+        this.enterLoginNotAttl(log);
+        this.enterPasswordNoAtl(pas);
+        this.clicToLoginField();
+        waitUntilElementIsVisable(By.id("error"), 5);
+    }
 
+    public void loginExistEmailAnyPass(String mail, String pas) {
+        this.enterLoginNotAttl(mail);
+        this.clicToLoginField();
+        this.waitUntilPassFildPresent();
+        this.enterPasswordNoAtl(pas);
+        this.clickToPasswoIn();
+
+    }
 
     public void waitUntilPageIsLoaded() {
         waitUntilElementIsClickabl(By.id("user"), 10);
@@ -28,19 +42,11 @@ public class LoginPageHelper extends PageBase {
     public void enterPasswordNoAtl(String pas) {
         WebElement pass = driver.findElement(By.id("password"));
         fillField(pass, pas);
-    }
-
-
-    public void weitThread(int time) {
-        waiterWithThread(time);
+        waiterWithThread(1000);
     }
 
     public void clicToLoginField() {
         driver.findElement(By.id("login")).click();
-    }
-
-    public void waitUntilErrorMessageIsPresent() {
-        waitUntilElementIsVisable(By.id("error"), 5);
     }
 
     public void waitUntilPassFildPresent() {

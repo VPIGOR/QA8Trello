@@ -1,13 +1,11 @@
 package TrelloTests;
 
+import Helpers.BoardsPageHelper;
 import Helpers.HomePageHelper;
 import Helpers.LoginPageHelper;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
@@ -15,6 +13,10 @@ public class TasteBase {
     WebDriver driver;
     HomePageHelper homePage;
     LoginPageHelper loginPage;
+    BoardsPageHelper boardsPage;
+
+    public static final String EMAIL = "hadashqa@gmail.com";
+    public static final String PASSWORD = "starQA21";
 
     @BeforeMethod
     public void startApp() {
@@ -22,36 +24,14 @@ public class TasteBase {
 //        options.addArguments("--lang=" + "en");
 //        driver = new ChromeDriver(options);
         driver = new ChromeDriver();
-        homePage = new HomePageHelper(driver);
         loginPage = new LoginPageHelper(driver);
+        boardsPage = new BoardsPageHelper(driver);
+        homePage = new HomePageHelper(driver);
 //        driver.manage().window().maximize();
         driver.get("https://trello.com/");
         homePage.waitUntilPageIsLoaded();
 
     }
-
-    public void waitUntilElementIsClickabl(By locator, int time) {
-        try {
-            new WebDriverWait(driver, time).until(ExpectedConditions.elementToBeClickable(locator));
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-    public void waitUntilElementIsVisable(By locator, int time) {
-        try {
-            new WebDriverWait(driver, time).until(ExpectedConditions.visibilityOfElementLocated(locator));
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-    public void waitUntilTitleIs(String str, int time) {
-        try {
-            new WebDriverWait(driver, time).until(ExpectedConditions.titleIs(str));
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
 
     @AfterMethod
     public void finishApp() {
