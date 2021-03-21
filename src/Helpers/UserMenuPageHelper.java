@@ -11,7 +11,6 @@ public class UserMenuPageHelper extends PageBase {
     }
 
     public String getEmail() {
-
         WebElement email = driver.findElement(By.xpath("//span[@class='_2TvKKP0vwCN5Zd']"));
         return email.getText();
     }
