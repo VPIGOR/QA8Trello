@@ -4,17 +4,32 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 import java.util.concurrent.TimeUnit;
 
 public class CurrentBoardPageHelper extends PageBase {
+    @FindBy(css = "[class='placeholder']")
+    WebElement placHolder;
+    @FindBy(className = "list-name-input")
+    WebElement listNameField;
+    @FindBy(css = ".js-close-list")
+    WebElement arhiveButton;
+    @FindBy(css = ".js-cancel-edit")
+    WebElement cancelEditButton;
+    @FindBy(css = "[type='submit']")
+    WebElement submitNameButton;
 
     public int testLists;
     public int testCards;
+    public String boardName;
 
-
-    public CurrentBoardPageHelper(WebDriver driver) {
+    public CurrentBoardPageHelper(WebDriver driver,String boardName) {
         super(driver);
+        this.boardName =boardName;
+        PageFactory.initElements(driver,this);
+
     }
 
 
@@ -48,14 +63,12 @@ public class CurrentBoardPageHelper extends PageBase {
     }
 
     private void clickCancelEditButton() {
-        WebElement cancelEdit = driver.findElement(By.cssSelector(".js-cancel-edit"));
-        cancelEdit.click();
-        waitUntilElementIsVisable(By.cssSelector("[class='placeholder']"), 5);
+        cancelEditButton.click();
+        waitUntilElementIsVisable(placHolder, 5);
     }
 
     public void clickSubmitChangeNameButton() {
-        WebElement addButton = driver.findElement(By.cssSelector("[type='submit']"));
-        addButton.click();
+        submitNameButton.click();
     }
 
     public void enterListName(String name) {
@@ -66,7 +79,7 @@ public class CurrentBoardPageHelper extends PageBase {
     public void ClickAddListButton() {
         WebElement addList = driver.findElement(By.cssSelector("[class='placeholder']"));
         addList.click();
-        waitUntilElementIsVisable(By.className("list-name-input"), 5);
+        waitUntilElementIsVisable(listNameField, 5);
     }
 
     public int listsSize() {
@@ -120,14 +133,13 @@ public class CurrentBoardPageHelper extends PageBase {
     }
 
     private void archiveThisList() {
-        WebElement delete = driver.findElement(By.className("js-close-list"));
-        delete.click();
+        arhiveButton.click();
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
     }
 
     private void clickMenuOflistButton(int listNum) {
         WebElement menuIcon = driver.findElements(By.cssSelector(".list-header-extras-menu")).get(listNum);
         menuIcon.click();
-        waitUntilElementIsVisable(By.cssSelector(".js-close-list"), 5);
+        waitUntilElementIsVisable(arhiveButton, 5);
     }
 }

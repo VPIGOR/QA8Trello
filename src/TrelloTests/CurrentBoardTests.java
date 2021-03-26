@@ -10,18 +10,20 @@ public class CurrentBoardTests extends TasteBase {
 
     @BeforeMethod
     public void init() {
-        currentBoard = new CurrentBoardPageHelper(driver);
+        currentBoard = new CurrentBoardPageHelper(driver,"QA Haifa8");
         loginPage.openLoginPage();
         loginPage.loginExistEmailAnyPass(EMAIL, PASSWORD);
         boardsPage.waitUntilPageIsLoaded();
-        boardsPage.enterToCurrentBoard("QA Haifa8");
+        boardsPage.enterToCurrentBoard(currentBoard.boardName);
     }
 
 
     @Test
     public void createNewList() {
+        int countOfListsBefore = currentBoard.listsSize();
         currentBoard.addEmptyList("emty list");
-        Assert.assertEquals(currentBoard.testLists, 1, "List didn't add");
+        int countOfListsAfter = currentBoard.listsSize();
+        Assert.assertEquals(countOfListsBefore+1,countOfListsAfter, "List didn't add");
     }
 
 

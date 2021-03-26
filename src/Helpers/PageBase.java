@@ -14,16 +14,16 @@ public class PageBase {
         this.driver = driver;
     }
 
-    public void waitUntilElementIsClickabl(By locator, int time) {
+    public void waitUntilElementIsClickabl(WebElement element, int time) {
         try {
-            new WebDriverWait(driver, time).until(ExpectedConditions.elementToBeClickable(locator));
+            new WebDriverWait(driver, time).until(ExpectedConditions.elementToBeClickable(element));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public void waitUntilElementIsVisable(By locator, int time) {
+    public void waitUntilElementIsVisable(WebElement element, int time) {
         try {
-            new WebDriverWait(driver, time).until(ExpectedConditions.visibilityOfElementLocated(locator));
+            new WebDriverWait(driver, time).until(ExpectedConditions.visibilityOf(element));
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 
 public class BoardsPageHelper extends PageBase {
 
+
     public BoardsPageHelper(WebDriver driver) {
         super(driver);
     }
