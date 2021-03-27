@@ -29,7 +29,7 @@ public class CurrentBoardTests extends TasteBase {
 
     @Test
     public void changeLastListName() {
-        currentBoard.ifBoardsListEmpty();
+        if(currentBoard.listsSize()==0) currentBoard.addEmptyList("new list");
         currentBoard.changeListName("new changed name", currentBoard.listsSize() - 1);
         Assert.assertEquals(currentBoard.getListName(currentBoard.listsSize() - 1), "new changed name", "THE LIST NAME DIDN'T CHANGE");
     }
@@ -44,7 +44,9 @@ public class CurrentBoardTests extends TasteBase {
     @Test
     public void deletionList() {
         currentBoard.ifBoardsListEmpty();
+        int countListsBefore = currentBoard.listsSize();
         currentBoard.dellList(0);
-        Assert.assertEquals(currentBoard.testLists, 1, "List didn't delete");
+        int countListsAfter = currentBoard.listsSize();
+        Assert.assertEquals(countListsBefore-1,countListsAfter, "List didn't delete");
     }
 }

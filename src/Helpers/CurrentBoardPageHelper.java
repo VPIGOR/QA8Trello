@@ -20,15 +20,21 @@ public class CurrentBoardPageHelper extends PageBase {
     WebElement cancelEditButton;
     @FindBy(css = "[type='submit']")
     WebElement submitNameButton;
+    @FindBy(css = ".js-cancel")
+    WebElement xCardButton;
+    @FindBy(css = ".js-add-card")
+    WebElement addCardButton;
+    @FindBy(css = ".js-card-title")
+    WebElement cardTitle;
 
     public int testLists;
     public int testCards;
     public String boardName;
 
-    public CurrentBoardPageHelper(WebDriver driver,String boardName) {
+    public CurrentBoardPageHelper(WebDriver driver, String boardName) {
         super(driver);
-        this.boardName =boardName;
-        PageFactory.initElements(driver,this);
+        this.boardName = boardName;
+        PageFactory.initElements(driver, this);
 
     }
 
@@ -72,18 +78,17 @@ public class CurrentBoardPageHelper extends PageBase {
     }
 
     public void enterListName(String name) {
-        WebElement listName = driver.findElement(By.className("list-name-input"));
-        fillField(listName, name);
+        fillField(listNameField, name);
     }
 
     public void ClickAddListButton() {
-        WebElement addList = driver.findElement(By.cssSelector("[class='placeholder']"));
-        addList.click();
+        placHolder.click();
         waitUntilElementIsVisable(listNameField, 5);
     }
 
     public int listsSize() {
         return driver.findElements(By.xpath("//div[@class='js-list list-wrapper']")).size();
+
     }
 
     public int cardSize() {
@@ -111,20 +116,18 @@ public class CurrentBoardPageHelper extends PageBase {
 
 
     private void closeAddCardIcon() {
-        WebElement xButton = driver.findElement(By.cssSelector(".js-cancel"));
-        xButton.click();
+
+        xCardButton.click();
         driver.navigate().refresh();
     }
 
     private void clickAddCreatedCardButton() {
-        WebElement addCard = driver.findElement(By.cssSelector(".js-add-card"));
-        addCard.click();
+        addCardButton.click();
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
     }
 
     private void enterNameOfCard(String cardName) {
-        WebElement enterName = driver.findElement(By.cssSelector(".js-card-title"));
-        fillField(enterName, cardName);
+        fillField(cardTitle, cardName);
     }
 
     private void clickCreateCardButton(int listNum) {
