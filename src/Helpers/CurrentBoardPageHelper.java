@@ -1,12 +1,12 @@
 package Helpers;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class CurrentBoardPageHelper extends PageBase {
@@ -26,6 +26,18 @@ public class CurrentBoardPageHelper extends PageBase {
     WebElement addCardButton;
     @FindBy(css = ".js-card-title")
     WebElement cardTitle;
+    @FindBy(xpath = "//div[@class='js-list list-wrapper']")
+    List<WebElement> wrapperList;
+    @FindBy(xpath = "//a[@class='list-card js-member-droppable ui-droppable']")
+    List<WebElement> cardList;
+    @FindBy(xpath = "//div[@class='list-header js-list-header u-clearfix is-menu-shown']")
+    List<WebElement> listOfListsNameField;
+    @FindBy(xpath = "//a[@class='open-card-composer js-open-card-composer']")
+    List<WebElement> listOfCreateCardButton;
+    @FindBy(css = ".list-header-name")
+    List<WebElement> listHeaderName;
+    @FindBy(css = ".list-header-extras-menu")
+    List<WebElement> listOfMenueButton;
 
     public int testLists;
     public int testCards;
@@ -35,9 +47,7 @@ public class CurrentBoardPageHelper extends PageBase {
         super(driver);
         this.boardName = boardName;
         PageFactory.initElements(driver, this);
-
     }
-
 
     public void addEmptyList(String name) {
         int countListsBefore = listsSize();
@@ -47,7 +57,6 @@ public class CurrentBoardPageHelper extends PageBase {
         clickCancelEditButton();
         int countListsAfter = listsSize();
         testLists = countListsAfter - countListsBefore;
-
     }
 
     public void addCard(String cardName, int listNum) {
@@ -87,12 +96,11 @@ public class CurrentBoardPageHelper extends PageBase {
     }
 
     public int listsSize() {
-        return driver.findElements(By.xpath("//div[@class='js-list list-wrapper']")).size();
-
+        return wrapperList.size();
     }
 
     public int cardSize() {
-        return driver.findElements(By.xpath("//a[@class='list-card js-member-droppable ui-droppable']")).size();
+        return cardList.size();
     }
 
     public void ifBoardsListEmpty() {
@@ -102,7 +110,7 @@ public class CurrentBoardPageHelper extends PageBase {
     }
 
     public void changeListName(String listName, int listNum) {
-        WebElement lastList = driver.findElements(By.cssSelector(".list-header-name")).get(listNum);
+        WebElement lastList = listHeaderName.get(listNum);
         lastList.clear();
         lastList.sendKeys(listName);
         lastList.sendKeys(Keys.ENTER);
@@ -110,13 +118,10 @@ public class CurrentBoardPageHelper extends PageBase {
     }
 
     public String getListName(int listNum) {
-        WebElement listName = driver.findElements(By.xpath("//div[@class='list-header js-list-header u-clearfix is-menu-shown']")).get(listNum);
-        return listName.getText();
+        return listOfListsNameField.get(listNum).getText();
     }
 
-
     private void closeAddCardIcon() {
-
         xCardButton.click();
         driver.navigate().refresh();
     }
@@ -131,8 +136,7 @@ public class CurrentBoardPageHelper extends PageBase {
     }
 
     private void clickCreateCardButton(int listNum) {
-        WebElement createCard = driver.findElements(By.xpath("//a[@class='open-card-composer js-open-card-composer']")).get(listNum);
-        createCard.click();
+        listOfCreateCardButton.get(listNum).click();
     }
 
     private void archiveThisList() {
@@ -141,8 +145,7 @@ public class CurrentBoardPageHelper extends PageBase {
     }
 
     private void clickMenuOflistButton(int listNum) {
-        WebElement menuIcon = driver.findElements(By.cssSelector(".list-header-extras-menu")).get(listNum);
-        menuIcon.click();
+        listOfMenueButton.get(listNum).click();
         waitUntilElementIsVisable(arhiveButton, 5);
     }
 }
