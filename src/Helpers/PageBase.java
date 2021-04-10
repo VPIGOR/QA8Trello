@@ -1,6 +1,5 @@
 package Helpers;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -50,5 +49,15 @@ public class PageBase {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
     }
+    //-------------open new tab-------------------------
+    // JavascriptExecutor js = (JavascriptExecutor)driver;
+    // js.executeScript("window.open()");
+
+    //--------------get name all of tabs-------------------
+    //ArrayList<String> list = new ArrayList<>(driver.getWindowHandles());
+
+    //---------------go to tab---------------------------------
+    // driver.switchTo().window(list.get(1));
 }

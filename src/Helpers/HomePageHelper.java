@@ -16,8 +16,9 @@ public class HomePageHelper extends PageBase {
 
 
 
-    public void waitUntilPageIsLoaded() {
+    public HomePageHelper waitUntilPageIsLoaded() {
         waitUntilElementIsClickabl(loginIcon,40);
+        return this;
     }
     public String getPageTitle(){
        return  driver.getTitle();
